@@ -1,26 +1,24 @@
--- filetype.lua
 local M = {}
 
-function M.filetype_icon()
-  local lspkind = require('lspkind')
-  local ft = vim.bo.filetype or ''  -- get current buffer's filetype
+function M.render()
+  local ft = vim.bo.filetype or ""
+  if ft == "" then return "" end
 
-  -- Try nvim-web-devicons if available (provides per-language icons)
-  local icon = nil
+  local icon = ""
   local ok, devicons = pcall(require, "nvim-web-devicons")
   if ok then
-    -- get_icon_by_filetype returns (icon, highlight); ignore highlight here
-    icon = devicons.get_icon_by_filetype(ft, {default = false})
+    icon = devicons.get_icon_by_filetype(ft, { default = false }) or ""
   end
 
-  -- Fallback: use LSPkind’s generic File icon (󰈙):contentReference[oaicite:3]{index=3}
-  if not icon or icon == "" then
-    icon = lspkind.symbol_map.File
+  if icon == "" then
+    local ok2, lspkind = pcall(require, "lspkind")
+    if ok2 then
+      icon = lspkind.symbol_map.File or ""
+    end
   end
 
-  -- Return icon (with a trailing space for separation)
-  -- For colored output, wrap with a highlight group, e.g. %#StatusFileIcon# (see below)
-  return icon .. " "
+  if icon == "" then return "" end
+  return "%#OliveFiletype# " .. icon .. " "
 end
 
 return M
