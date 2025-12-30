@@ -1,9 +1,7 @@
 local M = {}
 
 function M.render()
-  local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-  if path == "" then return "" end
-  return " " .. path
+  return "%#OlivePath# " .. vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
 end
 
 return M
