@@ -22,7 +22,10 @@ local hl = {
 
 function M.render()
   local m = vim.api.nvim_get_mode().mode
-  return ("%#%s# %s "):format(hl[m] or "StatusLine", modes[m] or m)
+  local group = hl[m] or "StatusLine"
+  local label = modes[m] or m
+
+  return "%#" .. group .. "# " .. label .. " "
 end
 
 return M
