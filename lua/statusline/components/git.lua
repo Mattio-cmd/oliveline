@@ -1,3 +1,4 @@
+--ex
 local M = {}
 
 function M.render()
