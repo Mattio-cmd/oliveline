@@ -22,6 +22,9 @@ function M.update_mode_colors()
   if m == "n" then return "%#StatusLine#" end
   if m == "i" then return "%#StatusLineInsert#" end
   if m == "v" then return "%#StatusLineVisual#" end
+  if m == "V" then return "%#StatusLineVisualBlock#" end
+  if m == "c" then return "%#StatusLineCommand#" end
+  if m == "R" then return "%#StatusLineReplace#" end
   return "%#StatusLine#"
 end
 
