@@ -19,7 +19,7 @@ end
 -- mode highlight
 function M.update_mode_colors()
   local m = vim.api.nvim_get_mode().mode
-  if m == "n" then return "%#StatusLine#" end
+  if m == "n" then return "%#StatusLineNormal#" end
   if m == "i" then return "%#StatusLineInsert#" end
   if m == "v" then return "%#StatusLineVisual#" end
   if m == "V" then return "%#StatusLineVisualBlock#" end
