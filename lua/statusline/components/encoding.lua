@@ -1,10 +1,9 @@
 local M = {}
 
 function M.render()
-  return ("%#OliveEncoding# %s|%s "):format(
-    vim.bo.fileencoding ~= "" and vim.bo.fileencoding or vim.o.encoding,
-    vim.bo.fileformat
-  )
+  local enc = vim.bo.fileencoding ~= "" and vim.bo.fileencoding or vim.o.encoding
+  local fmt = vim.bo.fileformat
+  return "%#OliveEncoding# " .. enc .. "|" .. fmt .. " "
 end
 
 return M
