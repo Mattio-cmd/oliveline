@@ -1,42 +1,48 @@
 local M = {}
 
--- Define the modes table
-local modes = { ["n"] = "NORMAL", ["i"] = "INSERT", ["v"] = "VISUAL", ["c"] = "COMMAND", }
+local modes = {
+  n = "NORMAL",
+  i = "INSERT",
+  v = "VISUAL",
+  V = "VISUAL",
+  [""] = "VISUAL",
+  c = "COMMAND",
+  R = "REPLACE",
+}
 
--- Mode function
+-- current mode label
 function M.mode()
-    local current_mode = vim.api.nvim_get_mode().mode
-    return string.format(" %s ", modes[current_mode]):upper()
+  local m = vim.api.nvim_get_mode().mode
+  return " " .. (modes[m] or m):upper() .. " "
 end
 
--- Mode color function
+-- mode highlight
 function M.update_mode_colors()
-    local current_mode = vim.api.nvim_get_mode().mode
-    if current_mode == "n" then return "%#StatusLineNormal#" end
-    if current_mode == "i" then return "%#StatusLineInsert#" end
-    return "%#StatusLine#" -- Default color
+  local m = vim.api.nvim_get_mode().mode
+  if m == "n" then return "%#StatusLine#" end
+  if m == "i" then return "%#StatusLineInsert#" end
+  if m == "v" then return "%#StatusLineVisual#" end
+  return "%#StatusLine#"
 end
 
--- Filepath function
+-- filepath
 function M.filepath()
-    return vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.:h')
+  return vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
 end
 
--- Active statusline
+-- active statusline
 function M.active()
-    return table.concat {
-        "%#Statusline#",
-        M.update_mode_colors(),
-        M.mode(),
-        "%#Normal# ",
-        M.filepath(),
-        "%#Normal#",
-    }
+  return table.concat({
+    M.update_mode_colors(),
+    M.mode(),
+    "%#Normal# ",
+    M.filepath(),
+  })
 end
 
--- Inactive statusline
+-- inactive statusline
 function M.inactive()
-    return " %F"
+  return " %F"
 end
 
 return M
